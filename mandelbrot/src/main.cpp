@@ -1,8 +1,13 @@
 #include <GLFW/glfw3.h>
 #include "vec2.h"
+#define HAVE_STRUCT_TIMESPEC
+#include <pthread.h>
+#include <vector>
+
 
 float width = 800.0f;
 float height = 800.0f;
+std::vector<pthread_t> thid(20);
 
 float halfWidth = width / 2.0f;
 float halfHeight = height/2.0f;
@@ -100,6 +105,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 }
 
+void * teste_thread(void *str) {
+    std::cout << "Hello World Thread!";
+    return 0;
+}
+
 int main(void){
     GLFWwindow* window;
 
@@ -126,6 +136,11 @@ int main(void){
         halfWidth,
         -halfHeight,
         halfHeight, 0.0f, 1.0f);
+
+    for (int threadNumber = 0; threadNumber < sizeof(thid); threadNumber++) {
+       
+        pthread_create(&thid[threadNumber], NULL, teste_thread, NULL);
+    }
    
     while (!glfwWindowShouldClose(window)){
         glClear(GL_COLOR_BUFFER_BIT);
