@@ -47,22 +47,27 @@ int getMandelbrotDistance(vec2 complexNumber) {
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
-    if (key == GLFW_KEY_KP_ADD && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_N && action == GLFW_PRESS) {
         zoom /= 1.1f;
         maxInteractions += 10.0f;
-    } else if (key == GLFW_KEY_KP_SUBTRACT && action == GLFW_PRESS) {
+    } else if ((key == GLFW_KEY_M && action == GLFW_PRESS)) {
         zoom *= 1.1f;
         maxInteractions -= 10.0f;
-    } else if (key == GLFW_KEY_KP_8 && action == GLFW_PRESS) {
+    } else if ((key == GLFW_KEY_KP_8 && action == GLFW_PRESS) ||
+            (key == GLFW_KEY_8 && action == GLFW_PRESS) ) {
         deltaY += 0.5f;
-    } else if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS) {
+    } else if ((key == GLFW_KEY_KP_2 && action == GLFW_PRESS)||
+               (key == GLFW_KEY_2 && action == GLFW_PRESS) ) {
         deltaY -= 0.5f;
-    } else if (key == GLFW_KEY_KP_6 && action == GLFW_PRESS) {
+    } else if ((key == GLFW_KEY_KP_6 && action == GLFW_PRESS)||
+            (key == GLFW_KEY_6 && action == GLFW_PRESS) ) {
         deltaX += 0.5f;
-    }else if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS) {
+    }else if ((key == GLFW_KEY_KP_4 && action == GLFW_PRESS)||
+              (key == GLFW_KEY_4 && action == GLFW_PRESS) ) {
         deltaX -= 0.5f;
     }
 }
+
 
 void *calculateBuffer(void * window) {
     while(!glfwWindowShouldClose((GLFWwindow *)window)){
