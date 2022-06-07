@@ -65,7 +65,7 @@ build CMakeFiles/mandelbrot.dir/main.cpp.o: CXX_COMPILER__mandelbrot_Debug /home
 
 build mandelbrot: CXX_EXECUTABLE_LINKER__mandelbrot_Debug CMakeFiles/mandelbrot.dir/main.cpp.o
   FLAGS = -g
-  LINK_LIBRARIES = -lglut  -lglfw  -lGLEW  -lGL  -lGLU
+  LINK_LIBRARIES = -lglut  -lglfw  -lGLEW  -lGL  -lGLU  -pthread
   OBJECT_DIR = CMakeFiles/mandelbrot.dir
   POST_BUILD = :
   PRE_LINK = :

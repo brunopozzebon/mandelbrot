@@ -4,4 +4,4 @@ project(mandelbrot)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(mandelbrot main.cpp vec2.h)
-target_link_libraries(mandelbrot -lglut -lglfw -lGLEW -lGL -lGLU)
+target_link_libraries(mandelbrot -lglut -lglfw -lGLEW -lGL -lGLU -pthread)

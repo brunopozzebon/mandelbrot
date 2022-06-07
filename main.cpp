@@ -1,18 +1,19 @@
 #include <GLFW/glfw3.h>
 #include "vec2.h"
+#include <pthread.h>
 
-float width = 800.0f;
-float height = 800.0f;
+int width = 800;
+int height = 800;
 
-float halfWidth = width / 2.0f;
-float halfHeight = height/2.0f;
+int halfWidth = width / 2.0f;
+int halfHeight = height/2.0f;
 int maxInteractions = 50;
 float zoom = 1.0f;
-
 float deltaX = -1.5f;
 float deltaY = -1.0f;
 
-//float **buffer = new float[800][800];
+float buffer[800][800];
+
 
 vec2 complexSquared(vec2* c) {
     return vec2(
@@ -45,47 +46,10 @@ int getMandelbrotDistance(vec2 complexNumber) {
     return n;
 }
 
-void drawImage(GLFWwindow* window) {
-    for (int i = 0; i < width; i++) {
-        glBegin(GL_POINTS);
-        for (int j = 0; j < height; j++) {
-
-            double positionX = ((j * zoom / halfWidth) + deltaX);
-            double positionY = ((i *zoom / halfHeight) + deltaY);
-
-            vec2 complexNumber = vec2(
-                    positionX,
-                    positionY
-            );
-
-            int n = getMandelbrotDistance(complexNumber);
-            float colorIntensity = ((n * 2.0f) + 40.0f) / 255.0f;
-
-            if (colorIntensity > 1.0f) {
-                colorIntensity = 1.0f;
-            } else if (colorIntensity<0.0f) {
-                colorIntensity = 0.0f;
-            }
-
-            if (n == maxInteractions) {
-                glColor3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(j- halfWidth, i- halfHeight, 0.0f);
-            }else {
-                glColor3f(0.0f, colorIntensity, 0.0f);
-                glVertex3f(j-halfWidth, i-halfHeight, 0.0f);
-            }
-        }
-        glEnd();
-        glfwPollEvents();
-       glfwSwapBuffers(window);
-    }
-}
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
     if (key == GLFW_KEY_KP_ADD && action == GLFW_PRESS) {
         zoom /= 1.1f;
         maxInteractions += 10.0f;
-
     } else if (key == GLFW_KEY_KP_SUBTRACT && action == GLFW_PRESS) {
         zoom *= 1.1f;
         maxInteractions -= 10.0f;
@@ -98,6 +62,41 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }else if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS) {
         deltaX -= 0.5f;
     }
+}
+
+void *calculateBuffer(void * window) {
+    while(!glfwWindowShouldClose((GLFWwindow *)window)){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+
+                double positionX = ((j * zoom / halfWidth) + deltaX);
+                double positionY = ((i *zoom / halfHeight) + deltaY);
+
+                vec2 complexNumber = vec2(
+                        positionX,
+                        positionY
+                );
+
+                int n = getMandelbrotDistance(complexNumber);
+                float colorIntensity = ((n * 2.0f) + 40.0f) / 255.0f;
+
+                if (colorIntensity > 1.0f) {
+                    colorIntensity = 1.0f;
+                } else if (colorIntensity<0.0f) {
+                    colorIntensity = 0.0f;
+                }
+
+                if (n == maxInteractions) {
+                    buffer[j][i] = 0.0f;
+
+                }else {
+                    buffer[j][i] = colorIntensity;
+                }
+            }
+        }
+    }
+
+    return nullptr;
 }
 
 int main(void){
@@ -122,10 +121,28 @@ int main(void){
             -halfHeight,
             halfHeight, 0.0f, 1.0f);
 
+    pthread_t mainThreadId;
+    pthread_create(&mainThreadId, NULL, &calculateBuffer, (void *)window);
+
     while (!glfwWindowShouldClose(window)){
-        drawImage(window);
+
+        glBegin(GL_POINTS);
+        for(int i =0;i<800;i++){
+            for(int j=0;j<800;j++){
+                float greenIntensity = buffer[j][i];
+                 glColor3f(
+                           0.0f,greenIntensity,  0.0f);
+                  glVertex3f(j- halfWidth, i- halfHeight, 0.0f);
+            }
+        }
+
+        glEnd();
+        glfwPollEvents();
+        glfwSwapBuffers(window);
     }
 
     glfwTerminate();
     return 0;
 }
+
+

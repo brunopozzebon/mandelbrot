@@ -97,6 +97,11 @@
 				"backtrace" : 2,
 				"fragment" : "-lGLU",
 				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-pthread",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
