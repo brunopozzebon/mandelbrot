@@ -12,6 +12,7 @@ float zoom = 1.0f;
 float deltaX = -1.5f;
 float deltaY = -1.0f;
 
+//float **buffer = new float[800][800];
 
 vec2 complexSquared(vec2* c) {
     return vec2(
@@ -44,10 +45,9 @@ int getMandelbrotDistance(vec2 complexNumber) {
     return n;
 }
 
-void drawImage() {
-    glBegin(GL_POINTS);
-
+void drawImage(GLFWwindow* window) {
     for (int i = 0; i < width; i++) {
+        glBegin(GL_POINTS);
         for (int j = 0; j < height; j++) {
 
             double positionX = ((j * zoom / halfWidth) + deltaX);
@@ -74,11 +74,11 @@ void drawImage() {
                 glColor3f(0.0f, colorIntensity, 0.0f);
                 glVertex3f(j-halfWidth, i-halfHeight, 0.0f);
             }
-
         }
+        glEnd();
+        glfwPollEvents();
+       glfwSwapBuffers(window);
     }
-
-    glEnd();
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -114,13 +114,8 @@ int main(void){
     }
 
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
     glfwSetKeyCallback(window, key_callback);
     glPointSize(1);
-
-
-    // glMatrixMode(GL_PROJECTION);
-    //   glLoadIdentity();
 
     glOrtho(-halfWidth,
             halfWidth,
@@ -128,17 +123,7 @@ int main(void){
             halfHeight, 0.0f, 1.0f);
 
     while (!glfwWindowShouldClose(window)){
-        glClear(GL_COLOR_BUFFER_BIT);
-
-
-
-        drawImage();
-
-
-
-        glfwSwapBuffers(window);
-
-        glfwPollEvents();
+        drawImage(window);
     }
 
     glfwTerminate();
