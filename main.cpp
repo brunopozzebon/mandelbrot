@@ -108,6 +108,7 @@ void *calculateWorker(void *voidArgs) {
 void *calculateBuffer(void * window) {
     int projectionX = 0;
     int projectionY = 0;
+    int count= 0;
     pthread_t mainThreadBufferId[divisionThreads][divisionThreads];
 
     while(!glfwWindowShouldClose((GLFWwindow *)window)) {
@@ -123,6 +124,8 @@ void *calculateBuffer(void * window) {
                 args.jMax = j + divisionThreads;
 
                 pthread_create(&mainThreadBufferId[projectionX][projectionY], NULL, &calculateWorker, &args);
+                std::cout << "Criou thread "<< count;
+                count++;
                 projectionY++;
             }
             projectionX++;
