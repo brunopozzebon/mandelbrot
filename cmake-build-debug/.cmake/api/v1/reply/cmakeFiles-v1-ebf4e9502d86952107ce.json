@@ -728,8 +728,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/gus/git/mandelbrot/cmake-build-debug",
-		"source" : "/home/gus/git/mandelbrot"
+		"build" : "/home/bruno/Documents/mandelbrot/cmake-build-debug",
+		"source" : "/home/bruno/Documents/mandelbrot"
 	},
 	"version" : 
 	{

@@ -5,15 +5,17 @@
 int width = 800;
 int height = 800;
 float buffer[800][800];
-int projection = 10; // 10 x 10
+int projection = 4; // 10 x 10
 int divisionThreads = width / projection;
 
-struct thread_args {
+struct thread_args{
     int iMin, iMax, jMin, jMax;
 };
 
+bool changeScreen = true;
+
 int halfWidth = width / 2.0f;
-int halfHeight = height/2.0f;
+int halfHeight = height / 2.0f;
 int maxInteractions = 50;
 float zoom = 1.0f;
 float deltaX = -1.5f;
@@ -54,21 +56,27 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_N && action == GLFW_PRESS) {
         zoom /= 1.1f;
         maxInteractions += 10.0f;
+        changeScreen = true;
     } else if ((key == GLFW_KEY_M && action == GLFW_PRESS)) {
         zoom *= 1.1f;
         maxInteractions -= 10.0f;
+        changeScreen = true;
     } else if ((key == GLFW_KEY_KP_8 && action == GLFW_PRESS) ||
             (key == GLFW_KEY_8 && action == GLFW_PRESS) ) {
         deltaY += 0.5f;
+        changeScreen = true;
     } else if ((key == GLFW_KEY_KP_2 && action == GLFW_PRESS)||
                (key == GLFW_KEY_2 && action == GLFW_PRESS) ) {
         deltaY -= 0.5f;
+        changeScreen = true;
     } else if ((key == GLFW_KEY_KP_6 && action == GLFW_PRESS)||
             (key == GLFW_KEY_6 && action == GLFW_PRESS) ) {
         deltaX += 0.5f;
-    }else if ((key == GLFW_KEY_KP_4 && action == GLFW_PRESS)||
+        changeScreen = true;
+    } else if ((key == GLFW_KEY_KP_4 && action == GLFW_PRESS)||
               (key == GLFW_KEY_4 && action == GLFW_PRESS) ) {
         deltaX -= 0.5f;
+        changeScreen = true;
     }
 }
 
@@ -78,7 +86,7 @@ void *calculateWorker(void *voidArgs) {
     for (int i = args->iMin; i < args->iMax; i++) {
         for (int j = args->jMin; j < args->jMax; j++) {
             double positionX = ((j * zoom / halfWidth) + deltaX);
-            double positionY = ((i *zoom / halfHeight) + deltaY);
+            double positionY = ((i * zoom / halfHeight) + deltaY);
 
             vec2 complexNumber = vec2(
                     positionX,
@@ -108,33 +116,43 @@ void *calculateWorker(void *voidArgs) {
 void *calculateBuffer(void * window) {
     int projectionX = 0;
     int projectionY = 0;
-    int count= 0;
-    pthread_t mainThreadBufferId[divisionThreads][divisionThreads];
+    int count = 0;
+    pthread_t mainThreadBufferId[projection][projection];
+    thread_args threadArguments[projection][projection];
+
+    printf("divisionThreads %d\n", divisionThreads);
 
     while(!glfwWindowShouldClose((GLFWwindow *)window)) {
-        projectionX = 0;
-        for (int i = 0; i < width; i += divisionThreads) {
-            projectionY = 0;
+        if (changeScreen == true) {
+            projectionX = 0;
+            for (int i = 0; i < width; i += divisionThreads) {
+                //printf("i %d\n", i);
 
-            for (int j = 0; j < height; j += divisionThreads) {
-                thread_args args;
-                args.iMin = i;
-                args.iMax = i + divisionThreads;
-                args.jMin = j;
-                args.jMax = j + divisionThreads;
+                projectionY = 0;
 
-                pthread_create(&mainThreadBufferId[projectionX][projectionY], NULL, &calculateWorker, &args);
-                std::cout << "Criou thread "<< count;
-                count++;
-                projectionY++;
+                for (int j = 0; j < height; j += divisionThreads) {
+                    //printf("j %d\n", j);
+
+                    threadArguments[projectionX][projectionY].iMin = i;
+                    threadArguments[projectionX][projectionY].iMax = i + divisionThreads;
+                    threadArguments[projectionX][projectionY].jMin = j;
+                    threadArguments[projectionX][projectionY].jMax = j + divisionThreads;
+
+                    pthread_create(&mainThreadBufferId[projectionX][projectionY], NULL, &calculateWorker, &threadArguments[projectionX][projectionY]);
+                    printf("Criou thread número %d\n", count);
+                    count++;
+                    projectionY++;
+                }
+                projectionX++;
             }
-            projectionX++;
-        }
 
-        for (int i = 0; i < divisionThreads; i++) {
-            for (int j = 0; j < divisionThreads; j++) {
-                pthread_join(mainThreadBufferId[i][j], NULL);
+            for (int i = 0; i < projection; i++) {
+                for (int j = 0; j < projection; j++) {
+                    pthread_join(mainThreadBufferId[i][j], NULL);
+                }
             }
+
+            changeScreen = false;
         }
     }
 
@@ -169,8 +187,8 @@ int main(void){
     while (!glfwWindowShouldClose(window)){
 
         glBegin(GL_POINTS);
-        for(int i =0;i<800;i++){
-            for(int j=0;j<800;j++){
+        for(int i = 0; i < 800; i++){
+            for(int j = 0; j < 800; j++){
                 float greenIntensity = buffer[j][i];
                  glColor3f(
                            0.0f,greenIntensity,  0.0f);

@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/gus/git/mandelbrot/cmake-build-debug"
+			"value" : "/home/bruno/Documents/mandelbrot/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "-j12"
+			"value" : "-j8"
 		},
 		{
 			"name" : "CMAKE_COLOR_MAKEFILE",
@@ -679,7 +679,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/gus/git/mandelbrot"
+			"value" : "/home/bruno/Documents/mandelbrot"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1247,7 +1247,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gus/git/mandelbrot/cmake-build-debug"
+			"value" : "/home/bruno/Documents/mandelbrot/cmake-build-debug"
 		},
 		{
 			"name" : "mandelbrot_IS_TOP_LEVEL",
@@ -1271,7 +1271,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gus/git/mandelbrot"
+			"value" : "/home/bruno/Documents/mandelbrot"
 		}
 	],
 	"kind" : "cache",

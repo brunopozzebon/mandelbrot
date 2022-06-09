@@ -1,5 +1,6 @@
-CMakeFiles/mandelbrot.dir/main.cpp.o: /home/gus/git/mandelbrot/main.cpp \
- /usr/include/stdc-predef.h /usr/include/GLFW/glfw3.h \
+CMakeFiles/mandelbrot.dir/main.cpp.o: \
+ /home/bruno/Documents/mandelbrot/main.cpp /usr/include/stdc-predef.h \
+ /usr/include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -17,7 +18,7 @@ CMakeFiles/mandelbrot.dir/main.cpp.o: /home/gus/git/mandelbrot/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h /usr/include/GL/gl.h \
  /usr/include/GL/glext.h /usr/include/KHR/khrplatform.h \
- /home/gus/git/mandelbrot/vec2.h /usr/include/c++/11/cmath \
+ /home/bruno/Documents/mandelbrot/vec2.h /usr/include/c++/11/cmath \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \

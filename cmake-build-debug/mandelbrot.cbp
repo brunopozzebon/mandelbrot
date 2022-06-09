@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/gus/git/mandelbrot/cmake-build-debug"/>
+				<Option working_dir="/home/bruno/Documents/mandelbrot/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mandelbrot">
-				<Option output="/home/gus/git/mandelbrot/cmake-build-debug/mandelbrot" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/gus/git/mandelbrot/cmake-build-debug"/>
+				<Option output="/home/bruno/Documents/mandelbrot/cmake-build-debug/mandelbrot" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bruno/Documents/mandelbrot/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -33,15 +33,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 mandelbrot"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 mandelbrot"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="mandelbrot/fast">
-				<Option output="/home/gus/git/mandelbrot/cmake-build-debug/mandelbrot" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/gus/git/mandelbrot/cmake-build-debug"/>
+				<Option output="/home/bruno/Documents/mandelbrot/cmake-build-debug/mandelbrot" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bruno/Documents/mandelbrot/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -55,40 +55,40 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 mandelbrot/fast"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 mandelbrot/fast"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/gus/git/mandelbrot/cmake-build-debug"/>
+				<Option working_dir="/home/bruno/Documents/mandelbrot/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/gus/git/mandelbrot/cmake-build-debug"/>
+				<Option working_dir="/home/bruno/Documents/mandelbrot/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -j12 -f &quot;/home/gus/git/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j8 -f &quot;/home/bruno/Documents/mandelbrot/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/gus/git/mandelbrot/main.cpp">
+		<Unit filename="/home/bruno/Documents/mandelbrot/main.cpp">
 			<Option target="mandelbrot"/>
 		</Unit>
-		<Unit filename="/home/gus/git/mandelbrot/vec2.h">
+		<Unit filename="/home/bruno/Documents/mandelbrot/vec2.h">
 			<Option target="mandelbrot"/>
 		</Unit>
-		<Unit filename="/home/gus/git/mandelbrot/CMakeLists.txt">
+		<Unit filename="/home/bruno/Documents/mandelbrot/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

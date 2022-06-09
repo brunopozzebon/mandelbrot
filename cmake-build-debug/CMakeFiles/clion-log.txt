@@ -1,4 +1,4 @@
-/snap/clion/193/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gus/git/mandelbrot -B /home/gus/git/mandelbrot/cmake-build-debug
+/snap/clion/193/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/bruno/Documents/mandelbrot -B /home/bruno/Documents/mandelbrot/cmake-build-debug
 -- The C compiler identification is GNU 11.2.0
 -- The CXX compiler identification is GNU 11.2.0
 -- Detecting C compiler ABI info
@@ -13,4 +13,4 @@
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/gus/git/mandelbrot/cmake-build-debug
+-- Build files have been written to: /home/bruno/Documents/mandelbrot/cmake-build-debug
