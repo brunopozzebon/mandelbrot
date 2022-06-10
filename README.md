@@ -16,4 +16,8 @@ Esse comando é usado para distros "Debian", caso tiver uma distro baseado em ou
 
 https://github.com/htop-dev/htop
 
+### Movimentos
+
+Utilize 8,6,4,2 para movimentar o canvas
+
 ![img.png](img.png)

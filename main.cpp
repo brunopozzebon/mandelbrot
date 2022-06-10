@@ -2,26 +2,34 @@
 #include "vec2.h"
 #include <pthread.h>
 
-int width = 800;
-int height = 800;
-float buffer[800][800];
+GLFWwindow *window;
+const int size = 800;
+float buffer[size][size];
 int projection = 4; // 10 x 10
-int divisionThreads = width / projection;
 
-struct thread_args{
+int divisionThreads = size / projection;
+
+struct threadsLimits {
     int iMin, iMax, jMin, jMax;
 };
 
-bool changeScreen = true;
-
-int halfWidth = width / 2.0f;
-int halfHeight = height / 2.0f;
+int halfSize = size / 2.0f;
 int maxInteractions = 50;
 float zoom = 1.0f;
 float deltaX = -1.5f;
 float deltaY = -1.0f;
+float canRead;
 
-vec2 complexSquared(vec2* c) {
+float moveIncrement = 0.1f;
+
+pthread_mutex_t lock;
+pthread_mutex_t bufferLock;
+
+pthread_cond_t conditional;
+
+pthread_barrier_t our_barrier;
+
+vec2 complexSquared(vec2 *c) {
     return vec2(
             c->x() * c->x() - c->y() * c->y(),
             2.0 * c->x() * c->y()
@@ -52,41 +60,64 @@ int getMandelbrotDistance(vec2 complexNumber) {
     return n;
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
-    if (key == GLFW_KEY_N && action == GLFW_PRESS) {
-        zoom /= 1.1f;
-        maxInteractions += 10.0f;
-        changeScreen = true;
-    } else if ((key == GLFW_KEY_M && action == GLFW_PRESS)) {
-        zoom *= 1.1f;
-        maxInteractions -= 10.0f;
-        changeScreen = true;
-    } else if ((key == GLFW_KEY_KP_8 && action == GLFW_PRESS) ||
-            (key == GLFW_KEY_8 && action == GLFW_PRESS) ) {
-        deltaY += 0.5f;
-        changeScreen = true;
-    } else if ((key == GLFW_KEY_KP_2 && action == GLFW_PRESS)||
-               (key == GLFW_KEY_2 && action == GLFW_PRESS) ) {
-        deltaY -= 0.5f;
-        changeScreen = true;
-    } else if ((key == GLFW_KEY_KP_6 && action == GLFW_PRESS)||
-            (key == GLFW_KEY_6 && action == GLFW_PRESS) ) {
-        deltaX += 0.5f;
-        changeScreen = true;
-    } else if ((key == GLFW_KEY_KP_4 && action == GLFW_PRESS)||
-              (key == GLFW_KEY_4 && action == GLFW_PRESS) ) {
-        deltaX -= 0.5f;
-        changeScreen = true;
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    if (!canRead) {
+        return;
     }
+    if ((key == GLFW_KEY_KP_8 && action == GLFW_PRESS) ||
+        (key == GLFW_KEY_8 && action == GLFW_PRESS)||
+        (key == GLFW_KEY_UP && action == GLFW_PRESS) ||
+        (key == GLFW_KEY_W && action == GLFW_PRESS)) {
+        deltaY += moveIncrement;
+    } else if ((key == GLFW_KEY_KP_2 && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_2 && action == GLFW_PRESS)||
+               (key == GLFW_KEY_DOWN && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_S && action == GLFW_PRESS)) {
+        deltaY -= moveIncrement;
+    } else if ((key == GLFW_KEY_KP_6 && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_6 && action == GLFW_PRESS)||
+               (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_D && action == GLFW_PRESS)) {
+        deltaX += moveIncrement;
+    } else if ((key == GLFW_KEY_KP_4 && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_4 && action == GLFW_PRESS)||
+               (key == GLFW_KEY_LEFT && action == GLFW_PRESS) ||
+               (key == GLFW_KEY_A && action == GLFW_PRESS)) {
+        deltaX -= moveIncrement;
+    }
+
+    pthread_mutex_lock(&lock);
+    canRead = false;
+    pthread_cond_broadcast(&conditional);
+    pthread_mutex_unlock(&lock);
 }
 
-void *calculateWorker(void *voidArgs) {
-    thread_args *args = (thread_args*)voidArgs;
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    if (!canRead) {
+        return;
+    }
+    if (yoffset > 0) {
+        zoom *= 1.1f;
+        moveIncrement *= 1.1f;
+        maxInteractions -= 10.0f;
+    } else {
+        zoom /= 1.1f;
+        moveIncrement /= 1.1f;
+        maxInteractions += 10.0f;
+    }
 
-    for (int i = args->iMin; i < args->iMax; i++) {
-        for (int j = args->jMin; j < args->jMax; j++) {
-            double positionX = ((j * zoom / halfWidth) + deltaX);
-            double positionY = ((i * zoom / halfHeight) + deltaY);
+    pthread_mutex_lock(&lock);
+    canRead = false;
+    pthread_cond_broadcast(&conditional);
+    pthread_mutex_unlock(&lock);
+}
+
+void calculateBuffer(int iMin, int iMax, int jMin, int jMax, float **localBuffer) {
+
+    for (int i = iMin; i < iMax; i++) {
+        for (int j = jMin; j < jMax; j++) {
+            double positionX = ((j * zoom / halfSize) + deltaX);
+            double positionY = ((i * zoom / halfSize) + deltaY);
 
             vec2 complexNumber = vec2(
                     positionX,
@@ -98,101 +129,125 @@ void *calculateWorker(void *voidArgs) {
 
             if (colorIntensity > 1.0f) {
                 colorIntensity = 1.0f;
-            } else if (colorIntensity<0.0f) {
+            } else if (colorIntensity < 0.0f) {
                 colorIntensity = 0.0f;
             }
 
             if (n == maxInteractions) {
-                buffer[j][i] = 0.0f;
+                localBuffer[j - jMin][i - iMin] = 0.0f;
             } else {
-                buffer[j][i] = colorIntensity;
+                localBuffer[j - jMin][i - iMin] = colorIntensity;
             }
         }
     }
-
-    return nullptr;
 }
 
-void *calculateBuffer(void * window) {
+void *calculateWorker(void *voidArgs) {
+    threadsLimits *args = (threadsLimits *) voidArgs;
+
+    while (!glfwWindowShouldClose(window)) {
+        float **localBuffer;
+        localBuffer = (float **) calloc(args->jMax - args->jMin, sizeof(int *));
+
+        for (int i = 0; i < args->jMax - args->jMin; i++) {
+            localBuffer[i] = (float *) calloc(args->iMax - args->iMin, sizeof(int)); // allocate row array
+        }
+
+        calculateBuffer(args->iMin, args->iMax, args->jMin, args->jMax, localBuffer);
+
+        pthread_mutex_lock(&bufferLock);
+        for (int i = args->iMin; i < args->iMax; i++) {
+            for (int j = args->jMin; j < args->jMax; j++) {
+                buffer[j][i] = localBuffer[j - args->jMin][i - args->iMin];
+            }
+        }
+        pthread_mutex_unlock(&bufferLock);
+
+        pthread_barrier_wait(&our_barrier);
+
+        pthread_mutex_lock(&lock);
+        canRead = true;
+        pthread_cond_wait(&conditional, &lock);
+        pthread_mutex_unlock(&lock);
+
+    }
+}
+
+void *mainThreadRoutine(void *window) {
     int projectionX = 0;
     int projectionY = 0;
     int count = 0;
     pthread_t mainThreadBufferId[projection][projection];
-    thread_args threadArguments[projection][projection];
+    threadsLimits threadsLimits[projection][projection];
 
-    printf("divisionThreads %d\n", divisionThreads);
+    projectionX = 0;
+    for (int i = 0; i < size; i += divisionThreads) {
+        projectionY = 0;
+        for (int j = 0; j < size; j += divisionThreads) {
 
-    while(!glfwWindowShouldClose((GLFWwindow *)window)) {
-        if (changeScreen == true) {
-            projectionX = 0;
-            for (int i = 0; i < width; i += divisionThreads) {
-                //printf("i %d\n", i);
+            threadsLimits[projectionX][projectionY].iMin = i;
+            threadsLimits[projectionX][projectionY].iMax = i + divisionThreads;
+            threadsLimits[projectionX][projectionY].jMin = j;
+            threadsLimits[projectionX][projectionY].jMax = j + divisionThreads;
 
-                projectionY = 0;
+            pthread_create(&mainThreadBufferId[projectionX][projectionY], NULL, &calculateWorker,
+                           &threadsLimits[projectionX][projectionY]);
+            count++;
+            projectionY++;
+        }
+        projectionX++;
+    }
 
-                for (int j = 0; j < height; j += divisionThreads) {
-                    //printf("j %d\n", j);
-
-                    threadArguments[projectionX][projectionY].iMin = i;
-                    threadArguments[projectionX][projectionY].iMax = i + divisionThreads;
-                    threadArguments[projectionX][projectionY].jMin = j;
-                    threadArguments[projectionX][projectionY].jMax = j + divisionThreads;
-
-                    pthread_create(&mainThreadBufferId[projectionX][projectionY], NULL, &calculateWorker, &threadArguments[projectionX][projectionY]);
-                    printf("Criou thread número %d\n", count);
-                    count++;
-                    projectionY++;
-                }
-                projectionX++;
-            }
-
-            for (int i = 0; i < projection; i++) {
-                for (int j = 0; j < projection; j++) {
-                    pthread_join(mainThreadBufferId[i][j], NULL);
-                }
-            }
-
-            changeScreen = false;
+    for (int i = 0; i < projection; i++) {
+        for (int j = 0; j < projection; j++) {
+            pthread_join(mainThreadBufferId[i][j], NULL);
         }
     }
 
     return nullptr;
 }
 
-int main(void){
-    GLFWwindow* window;
+int main(void) {
+
 
     if (!glfwInit())
         return -1;
 
-    window = glfwCreateWindow(width, height, "Processamento de alto desempenho", NULL, NULL);
+    window = glfwCreateWindow(size, size, "Processamento de alto desempenho", NULL, NULL);
 
-    if (!window){
+    if (!window) {
         glfwTerminate();
         return -1;
     }
 
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_callback);
+    glfwSetScrollCallback(window, scroll_callback);
     glPointSize(1);
 
-    glOrtho(-halfWidth,
-            halfWidth,
-            -halfHeight,
-            halfHeight, 0.0f, 1.0f);
+    glOrtho(-halfSize,
+            halfSize,
+            -halfSize,
+            halfSize, 0.0f, 1.0f);
 
     pthread_t mainThreadId;
-    pthread_create(&mainThreadId, NULL, &calculateBuffer, (void *)window);
+    pthread_create(&mainThreadId, NULL, &mainThreadRoutine, (void *) window);
 
-    while (!glfwWindowShouldClose(window)){
+    pthread_mutex_init(&lock, NULL);
+    pthread_mutex_init(&bufferLock, NULL);
+    pthread_barrier_init(&our_barrier, NULL, 16);
+    pthread_cond_init(&conditional, NULL);
+
+    while (!glfwWindowShouldClose(window)) {
 
         glBegin(GL_POINTS);
-        for(int i = 0; i < 800; i++){
-            for(int j = 0; j < 800; j++){
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 float greenIntensity = buffer[j][i];
-                 glColor3f(
-                           0.0f,greenIntensity,  0.0f);
-                  glVertex3f(j- halfWidth, i- halfHeight, 0.0f);
+                glColor3f(
+                        0.0f, greenIntensity, 0.0f);
+                glVertex3f(j - halfSize, i - halfSize, 0.0f);
             }
         }
 
