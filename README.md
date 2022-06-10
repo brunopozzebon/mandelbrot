@@ -31,7 +31,7 @@ https://github.com/htop-dev/htop
 
 ![img.png](img.png)
 
-### Qual a Melhor quantidade de threads? E Pq?
+### Qual a Melhor quantidade de threads? E Por que?
 
 16.
 
@@ -43,6 +43,8 @@ Para a avaliação da melhor quantidade de threads do programa, foi executado 10
 Obs: Por nossa tela ter tamanho de 800x800, só utilizamos quantidades de threads multiplas de 800.
 
 Para mais detalhes, pode ser verificado o excel Analise-quantidade-de-threads.xlsx
+
+Vale ressaltar que cada máquina pode ter um desempenho diferente e uma resposta diferente, pois existem diversos fatores que podem influenciar tal resultado, como por exemplo o hardware disponivel na máquina.
 
 
 
