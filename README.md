@@ -29,6 +29,10 @@ cd cmake-build-debug
 
 https://github.com/htop-dev/htop
 
+### Movimentos
+
+Utilize 8,6,4,2 para movimentar o canvas
+
 ![img.png](img.png)
 
 ### Qual a Melhor quantidade de threads? E Por que?

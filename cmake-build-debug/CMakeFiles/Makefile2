@@ -54,10 +54,10 @@ RM = /snap/clion/193/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/gus/git/mandelbrot
+CMAKE_SOURCE_DIR = /home/bruno/Documents/mandelbrot
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/gus/git/mandelbrot/cmake-build-debug
+CMAKE_BINARY_DIR = /home/bruno/Documents/mandelbrot/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/mandelbrot.dir/clean
 CMakeFiles/mandelbrot.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mandelbrot.dir/build.make CMakeFiles/mandelbrot.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mandelbrot.dir/build.make CMakeFiles/mandelbrot.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gus/git/mandelbrot/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target mandelbrot"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bruno/Documents/mandelbrot/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target mandelbrot"
 .PHONY : CMakeFiles/mandelbrot.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/mandelbrot.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gus/git/mandelbrot/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bruno/Documents/mandelbrot/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mandelbrot.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gus/git/mandelbrot/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bruno/Documents/mandelbrot/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/mandelbrot.dir/rule
 
 # Convenience name for target.
