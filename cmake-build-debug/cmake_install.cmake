@@ -1,4 +1,4 @@
-# Install script for directory: /home/bruno/Área de Trabalho/mandelbrot
+# Install script for directory: /home/bruno/Documents/mandelbrot
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/bruno/Área de Trabalho/mandelbrot/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/bruno/Documents/mandelbrot/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

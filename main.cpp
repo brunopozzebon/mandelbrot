@@ -1,33 +1,31 @@
 #include <GLFW/glfw3.h>
 #include "vec2.h"
 #include <pthread.h>
+#include <bits/stdc++.h>
 
 GLFWwindow *window;
+
+// config screen
 const int size = 800;
 float buffer[size][size];
-int projection = 4; // 10 x 10
-
-int divisionThreads = size / projection;
-
-struct threadsLimits {
-    int iMin, iMax, jMin, jMax;
-};
-
-int halfSize = size / 2.0f;
+int halfSize        = size / 2.0f;
 int maxInteractions = 50;
-float zoom = 1.0f;
+
+float zoom   = 1.0f;
 float deltaX = -1.5f;
 float deltaY = -1.0f;
 float canRead;
-
 float moveIncrement = 0.1f;
 
+// config threads
 pthread_mutex_t lock;
 pthread_mutex_t bufferLock;
-
 pthread_cond_t conditional;
-
 pthread_barrier_t our_barrier;
+
+int projection      = 16; // 10 x 10
+int divisionThreads = size / projection;
+struct threadsLimits { int iMin, iMax, jMin, jMax; };
 
 vec2 complexSquared(vec2 *c) {
     return vec2(
@@ -146,6 +144,7 @@ void *calculateWorker(void *voidArgs) {
     threadsLimits *args = (threadsLimits *) voidArgs;
 
     while (!glfwWindowShouldClose(window)) {
+
         float **localBuffer;
         localBuffer = (float **) calloc(args->jMax - args->jMin, sizeof(int *));
 
@@ -161,6 +160,7 @@ void *calculateWorker(void *voidArgs) {
                 buffer[j][i] = localBuffer[j - args->jMin][i - args->iMin];
             }
         }
+
         pthread_mutex_unlock(&bufferLock);
 
         pthread_barrier_wait(&our_barrier);
@@ -169,7 +169,6 @@ void *calculateWorker(void *voidArgs) {
         canRead = true;
         pthread_cond_wait(&conditional, &lock);
         pthread_mutex_unlock(&lock);
-
     }
 }
 
@@ -209,7 +208,6 @@ void *mainThreadRoutine(void *window) {
 
 int main(void) {
 
-
     if (!glfwInit())
         return -1;
 
@@ -235,7 +233,7 @@ int main(void) {
 
     pthread_mutex_init(&lock, NULL);
     pthread_mutex_init(&bufferLock, NULL);
-    pthread_barrier_init(&our_barrier, NULL, 16);
+    pthread_barrier_init(&our_barrier, NULL, projection * projection);
     pthread_cond_init(&conditional, NULL);
 
     while (!glfwWindowShouldClose(window)) {
