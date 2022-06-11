@@ -1,3 +1,0 @@
-/home/bruno/Área de Trabalho/mandelbrot/build/CMakeFiles/mandelbrot.dir
-/home/bruno/Área de Trabalho/mandelbrot/build/CMakeFiles/edit_cache.dir
-/home/bruno/Área de Trabalho/mandelbrot/build/CMakeFiles/rebuild_cache.dir

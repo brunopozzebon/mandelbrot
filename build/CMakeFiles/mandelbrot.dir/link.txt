@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/mandelbrot.dir/main.cpp.o -o mandelbrot  -lglut -lglfw -lGLEW -lGL -lGLU -pthread 
