@@ -12,6 +12,11 @@ Esse comando é usado para distros "Debian", caso tiver uma distro baseado em ou
     sudo apt-get install build-essential libglu1-mesa-dev freeglut3-dev mesa-common-dev mesa-utils libglfw3-dev libglew-dev cmake
 ```
 
+### Movimentos
+
+Utilize 8,6,4,2 para movimentar o canvas
+
+
 ### Como executar o programa?
 
 Opção 1) Utilizar uma IDE (Ex: CLion) para execução
@@ -23,15 +28,9 @@ cd cmake-build-debug
 ./madelbrot
 ```
 
-
-
 ### Analise das threads:
 
 https://github.com/htop-dev/htop
-
-### Movimentos
-
-Utilize 8,6,4,2 para movimentar o canvas
 
 ![img.png](img.png)
 

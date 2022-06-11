@@ -111,7 +111,6 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
 }
 
 void calculateBuffer(int iMin, int iMax, int jMin, int jMax, float **localBuffer) {
-
     for (int i = iMin; i < iMax; i++) {
         for (int j = jMin; j < jMax; j++) {
             double positionX = ((j * zoom / halfSize) + deltaX);
@@ -125,6 +124,9 @@ void calculateBuffer(int iMin, int iMax, int jMin, int jMax, float **localBuffer
             int n = getMandelbrotDistance(complexNumber);
             float colorIntensity = ((n * 2.0f) + 40.0f) / 255.0f;
 
+            /*
+             * Garante que a cor esteja no range aceitavel do OPENGL
+             * */
             if (colorIntensity > 1.0f) {
                 colorIntensity = 1.0f;
             } else if (colorIntensity < 0.0f) {
@@ -162,7 +164,6 @@ void *calculateWorker(void *voidArgs) {
         }
 
         pthread_mutex_unlock(&bufferLock);
-
         pthread_barrier_wait(&our_barrier);
 
         pthread_mutex_lock(&lock);
@@ -237,9 +238,7 @@ int main(void) {
     pthread_cond_init(&conditional, NULL);
 
     while (!glfwWindowShouldClose(window)) {
-
         glBegin(GL_POINTS);
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 float greenIntensity = buffer[j][i];
@@ -248,7 +247,6 @@ int main(void) {
                 glVertex3f(j - halfSize, i - halfSize, 0.0f);
             }
         }
-
         glEnd();
         glfwPollEvents();
         glfwSwapBuffers(window);
