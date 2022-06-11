@@ -12,24 +12,32 @@ Esse comando é usado para distros "Debian", caso tiver uma distro baseado em ou
     sudo apt-get install build-essential libglu1-mesa-dev freeglut3-dev mesa-common-dev mesa-utils libglfw3-dev libglew-dev cmake
 ```
 
-### Movimentos
-
-Utilize 8,6,4,2 para movimentar o canvas
-
-
 ### Como executar o programa?
+Execute os seguintes codigos abaixo, caso tenha um erro da versão do cmake, reintale o cmake com a versão maior que 3.22
 
-Opção 1) Utilizar uma IDE (Ex: CLion) para execução
-
-Opção 2)
 
 ```terminal
-cd cmake-build-debug
-./madelbrot
+mkdir build
+cd build
+cmake ..
+make
+./mandelbrot
 ```
 
-### Analise das threads:
+```terminal
+//Execute isso, apenas se tiver erro com o cmake
+sudo snap install cmake --classic
 
+//Caso não tenha o snap instalado, use o comando abaixo
+sudo apt get snap
+
+```
+
+### Movimentos Durante Execução
+Utilize 8,6,4,2 para movimentar o canvas (ou setinhas)
+Scrool do mouse para dar zoom
+
+### Analise das threads:
 https://github.com/htop-dev/htop
 
 ![img.png](img.png)
